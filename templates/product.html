@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — Amazon Clone{% endblock %}
+{% block content %}
+<main class="detail">
+  <div class="detail-visual">{{ product.emoji }}</div>
+  <div class="detail-info">
+    <div class="badge">{{ product.badge }}</div>
+    <h1>{{ product.name }}</h1>
+    <div class="rating">★★★★★ <span>{{ product.rating }} · 1,284 ratings</span></div>
+    <hr>
+    <p class="deal-label">Limited time deal</p>
+    <div><span class="detail-price">₹{{ "{:,}".format(product.price) }}</span> <del>₹{{ "{:,}".format(product.old_price) }}</del></div>
+    <p>Inclusive of all taxes. Free delivery available on eligible orders.</p>
+    <div class="delivery-box">🚚 <b>FREE delivery</b><br>Order today for fast delivery.</div>
+    <div class="actions"><button class="add">Add to Cart</button><button class="buy">Buy Now</button></div>
+  </div>
+</main>
+{% endblock %}

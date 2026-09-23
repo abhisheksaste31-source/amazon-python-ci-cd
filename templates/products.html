@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Products — Amazon Clone{% endblock %}
+{% block content %}
+<main class="listing">
+  <aside class="filters">
+    <h3>Departments</h3>
+    <a href="/products">All Products</a>
+    {% for c in categories %}<a href="/products?category={{ c }}">{{ c }}</a>{% endfor %}
+    <hr><h3>Customer Rating</h3><p>★★★★☆ & Up</p><p>★★★☆☆ & Up</p>
+    <hr><h3>Delivery</h3><p>✓ Free Delivery</p><p>✓ Prime-style</p>
+  </aside>
+  <section class="results">
+    <p class="muted">Showing {{ products|length }} results{% if selected_category %} for {{ selected_category }}{% endif %}</p>
+    <div class="product-grid">
+    {% for p in products %}
+      <article class="card">
+        <a href="/product/{{ p.id }}" class="visual">{{ p.emoji }}</a>
+        <div class="badge">{{ p.badge }}</div>
+        <a href="/product/{{ p.id }}" class="product-name">{{ p.name }}</a>
+        <div class="rating">★★★★★ <span>{{ p.rating }}</span></div>
+        <div><span class="price">₹{{ "{:,}".format(p.price) }}</span> <del>₹{{ "{:,}".format(p.old_price) }}</del></div>
+        <small>Free delivery</small>
+        <a class="small-btn" href="/product/{{ p.id }}">View product</a>
+      </article>
+    {% else %}
+      <p>No products found.</p>
+    {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}

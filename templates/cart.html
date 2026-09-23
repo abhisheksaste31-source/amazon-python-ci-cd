@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Cart — Amazon Clone{% endblock %}
+{% block content %}
+<main class="cart-page">
+  <div class="cart-box">
+    <h1>Shopping Cart</h1>
+    <hr>
+    <div class="empty-cart">🛒</div>
+    <h2>Your Amazon Clone Cart is empty.</h2>
+    <p>Looks like you haven't added anything yet.</p>
+    <a class="cta" href="/products">Continue shopping</a>
+  </div>
+  <aside class="subtotal"><h2>Subtotal</h2><h2>₹0</h2><p>✓ Your order qualifies for FREE delivery.</p><button>Proceed to Buy</button></aside>
+</main>
+{% endblock %}

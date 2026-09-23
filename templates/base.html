@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Amazon Python Clone{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">amazon<span>.clone</span></a>
+  <div class="location"><small>Deliver to</small><strong>📍 India</strong></div>
+  <form class="search" action="/products">
+    <select name="category"><option value="">All</option>{% for c in categories|default([]) %}<option>{{ c }}</option>{% endfor %}</select>
+    <input name="q" placeholder="Search Amazon Clone" aria-label="Search">
+    <button>🔍</button>
+  </form>
+  <div class="account"><small>Hello, sign in</small><strong>Account & Lists ▾</strong></div>
+  <div class="orders"><small>Returns</small><strong>& Orders</strong></div>
+  <a class="cart-link" href="/cart">🛒 <strong>Cart</strong></a>
+</header>
+<nav class="nav">
+  <a href="/products">☰ All</a>
+  <a href="/products?category=Electronics">Electronics</a>
+  <a href="/products?category=Mobiles">Mobiles</a>
+  <a href="/products?category=Fashion">Fashion</a>
+  <a href="/products?category=Home">Home</a>
+  <a href="/products?category=Computers">Computers</a>
+  <a href="/products?category=Accessories">Accessories</a>
+  <span class="nav-right">Today's Deals &nbsp; Customer Service</span>
+</nav>
+{% block content %}{% endblock %}
+<footer>
+  <div class="backtop"><a href="#">Back to top</a></div>
+  <div class="footer-main">
+    <div><h3>Get to Know Us</h3><p>About Us</p><p>Careers</p><p>Press Releases</p></div>
+    <div><h3>Make Money with Us</h3><p>Sell products</p><p>Advertise</p><p>Become an affiliate</p></div>
+    <div><h3>Let Us Help You</h3><p>Your Account</p><p>Shipping Rates</p><p>Returns Centre</p></div>
+    <div><h3>Amazon Clone</h3><p>Python Flask Demo</p><p>CI/CD Project</p><p>Built for DevOps practice</p></div>
+  </div>
+  <div class="footer-bottom">© 2026 Amazon Clone Demo · Built with Python Flask</div>
+</footer>
+</body>
+</html>

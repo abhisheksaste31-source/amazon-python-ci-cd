@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Amazon Clone — Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">WELCOME TO YOUR EVERYDAY STORE</p>
+    <h1>Everything you need.<br><span>Delivered simply.</span></h1>
+    <p>Explore electronics, mobiles, fashion, home essentials and more in this Amazon-inspired demo.</p>
+    <a class="cta" href="/products">Shop today's deals →</a>
+  </div>
+</section>
+
+<section class="quick-cards">
+  <div class="quick"><span>🚚</span><div><b>Fast delivery</b><small>Across India</small></div></div>
+  <div class="quick"><span>🔒</span><div><b>Secure shopping</b><small>Safe & simple</small></div></div>
+  <div class="quick"><span>↩️</span><div><b>Easy returns</b><small>Hassle-free</small></div></div>
+  <div class="quick"><span>⭐</span><div><b>Top rated</b><small>Customer picks</small></div></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><h2>Today's Deals</h2><a href="/products">See all deals</a></div>
+  <div class="product-grid">
+  {% for p in products %}
+    <article class="card">
+      <a href="/product/{{ p.id }}" class="visual">{{ p.emoji }}</a>
+      <div class="badge">{{ p.badge }}</div>
+      <a href="/product/{{ p.id }}" class="product-name">{{ p.name }}</a>
+      <div class="rating">★★★★★ <span>{{ p.rating }}</span></div>
+      <div><span class="price">₹{{ "{:,}".format(p.price) }}</span> <del>₹{{ "{:,}".format(p.old_price) }}</del></div>
+      <small>Free delivery</small>
+    </article>
+  {% endfor %}
+  </div>
+</section>
+
+<section class="category-strip">
+  <div class="section-head"><h2>Shop by category</h2></div>
+  <div class="category-grid">
+    {% for c in categories %}
+    <a href="/products?category={{ c }}" class="category"><span>{{ {"Electronics":"📺","Mobiles":"📱","Computers":"💻","Fashion":"👕","Home":"🏠","Accessories":"⌚"}[c] }}</span><b>{{ c }}</b></a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

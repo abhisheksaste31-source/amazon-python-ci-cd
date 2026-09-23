@@ -1,0 +1,14 @@
+[Unit]
+Description=Amazon Python Flask Clone
+After=network.target
+
+[Service]
+User=ec2-user
+WorkingDirectory=/opt/amazon-python-cicd
+Environment="PATH=/opt/amazon-python-cicd/venv/bin"
+ExecStart=/opt/amazon-python-cicd/venv/bin/gunicorn --workers 2 --bind 0.0.0.0:5000 app:app
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
