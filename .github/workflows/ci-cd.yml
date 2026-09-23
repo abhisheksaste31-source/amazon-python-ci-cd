@@ -111,8 +111,6 @@ jobs:
             sudo systemctl enable amazon-python-cicd
             sudo systemctl restart amazon-python-cicd
 
-            sudo systemctl restart nginx
-
             echo "Deployment completed!"
 
             sudo systemctl --no-pager status amazon-python-cicd
