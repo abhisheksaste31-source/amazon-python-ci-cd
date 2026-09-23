@@ -1,18 +1,24 @@
-name: Python Flask CI/CD
+name: Python Flask CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+
   workflow_dispatch:
 
 jobs:
+
   ci:
-    name: CI - Test and Code Quality
+    name: CI - Test and Build
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout source code
         uses: actions/checkout@v4
 
@@ -28,14 +34,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run pytest
-        run: pytest -v
-
-      - name: SonarQube Scan
-        if: ${{ secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != '' }}
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          pytest -v
 
       - name: Create deployment package
         run: |
@@ -46,52 +46,8 @@ jobs:
                ".pytest_cache/*" \
                "*.pyc"
 
-      - name: Upload artifact
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: amazon-python-cicd
           path: amazon-python-cicd.zip
-
-  cd:
-    name: CD - Deploy to AWS EC2
-    needs: ci
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: amazon-python-cicd
-
-      - name: Copy package to EC2
-        if: ${{ secrets.EC2_HOST != '' && secrets.EC2_USER != '' && secrets.EC2_SSH_KEY != '' }}
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "amazon-python-cicd.zip"
-          target: "/tmp"
-
-      - name: Deploy application on EC2
-        if: ${{ secrets.EC2_HOST != '' && secrets.EC2_USER != '' && secrets.EC2_SSH_KEY != '' }}
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            set -e
-            sudo mkdir -p /opt/amazon-python-cicd
-            sudo rm -rf /opt/amazon-python-cicd/*
-            sudo unzip -o /tmp/amazon-python-cicd.zip -d /opt/amazon-python-cicd
-            cd /opt/amazon-python-cicd
-            sudo python3 -m venv venv
-            sudo ./venv/bin/pip install --upgrade pip
-            sudo ./venv/bin/pip install -r requirements.txt
-            sudo cp deploy/amazon-python-cicd.service /etc/systemd/system/amazon-python-cicd.service
-            sudo systemctl daemon-reload
-            sudo systemctl enable amazon-python-cicd
-            sudo systemctl restart amazon-python-cicd
-            sudo systemctl --no-pager status amazon-python-cicd
