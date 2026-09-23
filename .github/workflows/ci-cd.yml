@@ -15,7 +15,7 @@ jobs:
 
   ci:
     name: CI - Test, SonarQube and Build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
 
@@ -62,7 +62,7 @@ jobs:
   cd:
     name: CD - Deploy to EC2
     needs: ci
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
 
@@ -94,9 +94,12 @@ jobs:
             sudo systemctl stop amazon-python-cicd || true
 
             sudo rm -rf /opt/amazon-python-cicd/*
-            sudo unzip -o /tmp/amazon-python-cicd.zip -d /opt/amazon-python-cicd
 
-            sudo chown -R ec2-user:ec2-user /opt/amazon-python-cicd
+            sudo unzip -o /tmp/amazon-python-cicd.zip \
+              -d /opt/amazon-python-cicd
+
+            sudo chown -R ec2-user:ec2-user \
+              /opt/amazon-python-cicd
 
             cd /opt/amazon-python-cicd
 
