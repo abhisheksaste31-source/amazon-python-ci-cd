@@ -58,11 +58,11 @@ jobs:
           name: amazon-python-cicd
           path: amazon-python-cicd.zip
 
-
+    
   cd:
     name: CD - Deploy to EC2
     needs: ci
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest   
 
     steps:
 
@@ -114,3 +114,4 @@ jobs:
             echo "Deployment completed!"
 
             sudo systemctl --no-pager status amazon-python-cicd
+               
